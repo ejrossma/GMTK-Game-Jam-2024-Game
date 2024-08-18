@@ -1,19 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://cknasbr31twc8"]
+[gd_scene load_steps=7 format=3 uid="uid://cknasbr31twc8"]
 
-[ext_resource type="Script" path="res://scripts/tween.gd" id="1_6gs26"]
-[ext_resource type="Texture2D" uid="uid://bneqf7pqrr00k" path="res://assets/Tiles/tile_0084.png" id="2_hg7di"]
-[ext_resource type="PackedScene" uid="uid://xfhdnrj84e4p" path="res://scenes/flashlight.tscn" id="3_pkpp2"]
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_ealh7"]
+[ext_resource type="Texture2D" uid="uid://btv3t3it8gfem" path="res://assets/Pixel Art/bob.png" id="2_8wsmr"]
+[ext_resource type="Script" path="res://scripts/flashlight_movement.gd" id="3_segwa"]
+[ext_resource type="Script" path="res://scripts/flashlight.gd" id="4_584uq"]
+[ext_resource type="Texture2D" uid="uid://dhriw23q6wvx7" path="res://assets/Pixel Art/Flashlight.png" id="5_nefi1"]
+
+[sub_resource type="Curve" id="Curve_yvm0c"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Character" type="Node2D"]
-script = ExtResource("1_6gs26")
+script = ExtResource("1_ealh7")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 
 [node name="Body" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(0, -8)
-texture = ExtResource("2_hg7di")
+texture = ExtResource("2_8wsmr")
+script = ExtResource("3_segwa")
 
-[node name="Laser" parent="CharacterBody2D" instance=ExtResource("3_pkpp2")]
+[node name="Flashlight" type="Node2D" parent="CharacterBody2D/Body"]
+position = Vector2(14.96, 0)
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/Body/Flashlight"]
+texture = ExtResource("5_nefi1")
+
+[node name="RayCast2D" type="RayCast2D" parent="CharacterBody2D/Body/Flashlight/Sprite2D"]
+position = Vector2(8, 0)
+rotation = 1.5708
+target_position = Vector2(0, -100)
+script = ExtResource("4_584uq")
+
+[node name="Line2D" type="Line2D" parent="CharacterBody2D/Body/Flashlight/Sprite2D/RayCast2D"]
+points = PackedVector2Array(0, 0, 0, -100)
+width = 0.0
+width_curve = SubResource("Curve_yvm0c")
+default_color = Color(1, 1, 0.772549, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D/Body/Flashlight/Sprite2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
+zoom = Vector2(5, 5)
+
+[connection signal="refill_granted" from="." to="CharacterBody2D/Body/Flashlight/Sprite2D/RayCast2D" method="refill_battery"]
+[connection signal="need_battery_refill" from="CharacterBody2D/Body/Flashlight/Sprite2D/RayCast2D" to="." method="refill_battery"]
