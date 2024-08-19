@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://pbhddjy33t3g"]
+
+[ext_resource type="FontFile" uid="uid://c2dsppc1q1ro0" path="res://assets/Minecraft.ttf" id="1_lahqh"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="1_y1kyj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aicy7"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6cvg"]
+bg_color = Color(0.691317, 0, 0.0566919, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8nhg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2m3u"]
+bg_color = Color(0.778917, 0.784258, 0.0771811, 1)
+
+[node name="Ui" type="CanvasLayer"]
+script = ExtResource("1_y1kyj")
+
+[node name="Health" type="ProgressBar" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.0
+offset_right = 75.0
+offset_bottom = 15.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_aicy7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_r6cvg")
+value = 100.0
+show_percentage = false
+
+[node name="Battery" type="ProgressBar" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.0
+offset_top = 15.0
+offset_right = 63.0
+offset_bottom = 30.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_g8nhg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h2m3u")
+value = 100.0
+show_percentage = false
+
+[node name="Remaining" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.0
+offset_top = 30.0
+offset_right = 63.0
+offset_bottom = 53.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_lahqh")
+theme_override_font_sizes/font_size = 16
+text = "Batteries: 1"
+horizontal_alignment = 1
+vertical_alignment = 1

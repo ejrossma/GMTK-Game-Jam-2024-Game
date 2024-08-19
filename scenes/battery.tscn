@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://1ocf2hrm2guu"]
+
+[ext_resource type="Script" path="res://scripts/battery.gd" id="1_484s1"]
+[ext_resource type="Texture2D" uid="uid://duivv7rlrf3ls" path="res://assets/Pixel Art/battery.png" id="2_1auxu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_278fe"]
+radius = 4.0
+
+[node name="Battery" type="Area2D"]
+script = ExtResource("1_484s1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_1auxu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_278fe")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

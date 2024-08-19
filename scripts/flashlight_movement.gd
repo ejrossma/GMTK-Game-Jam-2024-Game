@@ -1,8 +1,8 @@
-extends Sprite2D
+extends AnimatedSprite2D
 
 @onready var flashlight = $Flashlight
 
-var perimeter_radius = 12.5
+var perimeter_radius = 15
 var look_radius = 25.0
 var tween
 var time:= 0.0
