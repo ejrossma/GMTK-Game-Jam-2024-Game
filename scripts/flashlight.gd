@@ -25,6 +25,11 @@ var light_damage = 10
 #used for smooth change in light shape
 var tween
 
+var game_manager
+
+func _ready():
+	game_manager = get_tree().get_root().get_child(0)
+
 func _process(delta):
 	update_battery()
 	
@@ -50,11 +55,11 @@ func update_battery():
 	battery_health-=(intensity*battery_usage_coefficient)
 	if battery_health < 0:
 		need_battery_refill.emit()
-	emit_signal("update_ui", battery_health)
+	game_manager.update_battery(battery_health)
 
 func refill_battery():
 	battery_health = max_battery_health
-	emit_signal("update_ui", battery_health)
+	game_manager.update_battery(battery_health)
 
 #turn on flashlight or update intensity
 func appear():

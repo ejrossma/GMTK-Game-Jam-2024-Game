@@ -109,26 +109,27 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [node name="Player" type="Node2D"]
+z_index = 2
 script = ExtResource("1_ealh7")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="PlayerBody" type="CharacterBody2D" parent="."]
 script = ExtResource("2_4ydmb")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerBody"]
 sprite_frames = SubResource("SpriteFrames_bqdn5")
 animation = &"idle"
 autoplay = "idle"
 script = ExtResource("3_segwa")
 
-[node name="Flashlight" type="Node2D" parent="CharacterBody2D/AnimatedSprite2D"]
+[node name="Flashlight" type="Node2D" parent="PlayerBody/AnimatedSprite2D"]
 position = Vector2(16, 0)
 scale = Vector2(0.75, 0.75)
 script = ExtResource("4_584uq")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/AnimatedSprite2D/Flashlight"]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerBody/AnimatedSprite2D/Flashlight"]
 texture = ExtResource("5_nefi1")
 
-[node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D/AnimatedSprite2D/Flashlight"]
+[node name="PointLight2D" type="PointLight2D" parent="PlayerBody/AnimatedSprite2D/Flashlight"]
 position = Vector2(57.7811, 0.0590955)
 rotation = 1.5708
 scale = Vector2(0.206252, 1.55168)
@@ -136,12 +137,14 @@ color = Color(0.976631, 0.985464, 0.686197, 1)
 energy = 0.5
 texture = SubResource("GradientTexture2D_cqn36")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="PlayerCollider" type="CollisionShape2D" parent="PlayerBody"]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_6s2fy")
 
-[node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D"]
+[node name="PointLight2D" type="PointLight2D" parent="PlayerBody"]
 energy = 0.5
 texture = SubResource("GradientTexture2D_4f5k7")
 
-[connection signal="update_ui" from="CharacterBody2D/AnimatedSprite2D/Flashlight" to="." method="_on_flashlight_update_ui"]
+[connection signal="refill_granted" from="." to="PlayerBody/AnimatedSprite2D/Flashlight" method="refill_battery"]
+[connection signal="need_battery_refill" from="PlayerBody/AnimatedSprite2D/Flashlight" to="." method="refill_battery"]
+[connection signal="update_ui" from="PlayerBody/AnimatedSprite2D/Flashlight" to="." method="_on_flashlight_update_ui"]

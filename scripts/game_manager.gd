@@ -51,4 +51,9 @@ func game_restart():
 func game_over():
 	get_tree().paused = true
 	$Camera2D/GameOver.show()
+	
+func update_player(hth, rmn):
+	$Camera2D/Ui.update_player(hth, rmn)
 
+func update_battery(bat_hth):
+	$Camera2D/Ui.update_battery(bat_hth)

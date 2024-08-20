@@ -3,6 +3,6 @@ extends CanvasLayer
 func update_battery(amt):
 	$Battery.value = amt
 
-func _on_player_update_player(hth, rmn):
-	$Remaining.text = "Batteries: " + rmn
+func update_player(hth, rmn):
+	$Remaining.text = str("Batteries: ", rmn)
 	$Health.value = hth
