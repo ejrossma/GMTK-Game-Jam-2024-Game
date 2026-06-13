@@ -1,12 +1,13 @@
-[gd_scene load_steps=23 format=3 uid="uid://cknasbr31twc8"]
+[gd_scene format=3 uid="uid://cknasbr31twc8"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_ealh7"]
-[ext_resource type="Script" path="res://scripts/player_movement.gd" id="2_4ydmb"]
+[ext_resource type="Script" uid="uid://ce23y22v6s5px" path="res://scripts/player.gd" id="1_ealh7"]
+[ext_resource type="Script" uid="uid://p1lj08urbqkk" path="res://scripts/player_movement.gd" id="2_4ydmb"]
 [ext_resource type="Texture2D" uid="uid://yq0u3yualxlb" path="res://assets/Pixel Art/bob_idle_floating_hands-Sheet.png" id="2_lx00p"]
 [ext_resource type="Texture2D" uid="uid://dticso5o313hu" path="res://assets/Pixel Art/bob_walk_floating_hands-Sheet.png" id="3_pbnis"]
-[ext_resource type="Script" path="res://scripts/flashlight_movement.gd" id="3_segwa"]
-[ext_resource type="Script" path="res://scripts/flashlight.gd" id="4_584uq"]
+[ext_resource type="Script" uid="uid://dqriksq5jy76q" path="res://scripts/flashlight_movement.gd" id="3_segwa"]
+[ext_resource type="Script" uid="uid://cjy1w5he2bt5b" path="res://scripts/flashlight.gd" id="4_584uq"]
 [ext_resource type="Texture2D" uid="uid://dhriw23q6wvx7" path="res://assets/Pixel Art/Flashlight.png" id="5_nefi1"]
+[ext_resource type="Texture2D" uid="uid://bqtrg15bl1fu" path="res://assets/Lighting/flashlight_cone.png" id="8_smehm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_80llf"]
 atlas = ExtResource("2_lx00p")
@@ -84,17 +85,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_7uchs"]
-offsets = PackedFloat32Array(0, 0.41875, 0.525, 0.634375, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.803571, 0.803571, 0.803571, 1, 0.847474, 0.847474, 0.847474, 1, 0.769737, 0.769737, 0.769737, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_cqn36"]
-gradient = SubResource("Gradient_7uchs")
-width = 50
-height = 60
-fill_from = Vector2(0.507813, 0)
-fill_to = Vector2(0.5, 1)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6s2fy"]
 radius = 4.0
 height = 12.0
@@ -108,43 +98,56 @@ gradient = SubResource("Gradient_uqrxx")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" unique_id=381037239 groups=["player"]]
 z_index = 2
 script = ExtResource("1_ealh7")
 
-[node name="PlayerBody" type="CharacterBody2D" parent="."]
+[node name="PlayerBody" type="CharacterBody2D" parent="." unique_id=1817580234]
 script = ExtResource("2_4ydmb")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerBody"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerBody" unique_id=1084853927]
 sprite_frames = SubResource("SpriteFrames_bqdn5")
 animation = &"idle"
 autoplay = "idle"
 script = ExtResource("3_segwa")
 
-[node name="Flashlight" type="Node2D" parent="PlayerBody/AnimatedSprite2D"]
+[node name="Flashlight" type="Node2D" parent="PlayerBody/AnimatedSprite2D" unique_id=132533520]
 position = Vector2(16, 0)
 scale = Vector2(0.75, 0.75)
 script = ExtResource("4_584uq")
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerBody/AnimatedSprite2D/Flashlight"]
+[node name="Sprite2D" type="Sprite2D" parent="PlayerBody/AnimatedSprite2D/Flashlight" unique_id=480109484]
 texture = ExtResource("5_nefi1")
 
-[node name="PointLight2D" type="PointLight2D" parent="PlayerBody/AnimatedSprite2D/Flashlight"]
-position = Vector2(57.7811, 0.0590955)
-rotation = 1.5708
-scale = Vector2(0.206252, 1.55168)
+[node name="PointLight2D" type="PointLight2D" parent="PlayerBody/AnimatedSprite2D/Flashlight" unique_id=1518805776]
+show_behind_parent = true
+position = Vector2(8.000001, 0)
+scale = Vector2(0.20312499, 0.14583333)
 color = Color(0.976631, 0.985464, 0.686197, 1)
 energy = 0.5
-texture = SubResource("GradientTexture2D_cqn36")
+texture = ExtResource("8_smehm")
 
-[node name="PlayerCollider" type="CollisionShape2D" parent="PlayerBody"]
+[node name="Area2D" type="Area2D" parent="PlayerBody/AnimatedSprite2D/Flashlight/PointLight2D" unique_id=34665935]
+position = Vector2(263.6587, -0.0010588511)
+rotation = 1.5707989
+scale = Vector2(0.08853842, 0.6320386)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerBody/AnimatedSprite2D/Flashlight/PointLight2D/Area2D" unique_id=457713694]
+position = Vector2(0.007910451, -112.5099)
+polygon = PackedVector2Array(-0.010466842, -290.79706, 1445.69, -290.79755, 103.28298, 519.2803, 0.018690787, 519.2804, -103.2456, 519.28033, -1445.7107, -290.79657)
+
+[node name="PlayerCollider" type="CollisionShape2D" parent="PlayerBody" unique_id=147873033]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_6s2fy")
 
-[node name="PointLight2D" type="PointLight2D" parent="PlayerBody"]
+[node name="PointLight2D" type="PointLight2D" parent="PlayerBody" unique_id=667814157]
 energy = 0.5
 texture = SubResource("GradientTexture2D_4f5k7")
 
 [connection signal="refill_granted" from="." to="PlayerBody/AnimatedSprite2D/Flashlight" method="refill_battery"]
 [connection signal="need_battery_refill" from="PlayerBody/AnimatedSprite2D/Flashlight" to="." method="refill_battery"]
 [connection signal="update_ui" from="PlayerBody/AnimatedSprite2D/Flashlight" to="." method="_on_flashlight_update_ui"]
+[connection signal="area_entered" from="PlayerBody/AnimatedSprite2D/Flashlight/PointLight2D/Area2D" to="PlayerBody/AnimatedSprite2D/Flashlight" method="_on_area_entered"]
+[connection signal="area_exited" from="PlayerBody/AnimatedSprite2D/Flashlight/PointLight2D/Area2D" to="PlayerBody/AnimatedSprite2D/Flashlight" method="_on_area_exited"]
+[connection signal="body_entered" from="PlayerBody/AnimatedSprite2D/Flashlight/PointLight2D/Area2D" to="PlayerBody/AnimatedSprite2D/Flashlight" method="_on_body_entered"]
+[connection signal="body_exited" from="PlayerBody/AnimatedSprite2D/Flashlight/PointLight2D/Area2D" to="PlayerBody/AnimatedSprite2D/Flashlight" method="_on_body_exited"]
